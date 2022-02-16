@@ -5,6 +5,9 @@ import styles from '../style/style';
 
 //Game Constants
 let board = [];
+let nbrSum = [0, 0, 0, 0, 0, 0];
+let selectPossible = false;
+let throwPossible = true;
 const NBR_OF_DICES = 5;
 const NBR_OF_THROWS = 3;
 const SUM_FOR_BONUS = 63;
@@ -30,19 +33,10 @@ export default function Gameboard() {
                     name={board[i]}
                     key={"row" + i}
                     size={50}
-                    color={getDiceColor(i)}
+                    color={selectedDices[i] ? "black" : "steelblue"}
                 />
             </Pressable>
         );
-    }
-
-    //Color selected dices differently
-    function getDiceColor(i) {
-        if (board.every((val, i, arr) => val === arr[0])) { //every() checks if all dices are the same number
-            return "orange";
-        } else {
-            return selectedDices[i] ? "black" : "steelblue";
-        }
     }
 
     //Select dices
@@ -54,13 +48,15 @@ export default function Gameboard() {
 
     //Throw dices
     function throwDices() {
-        for (let i = 0; i < NBR_OF_DICES; i++) {
-            if (!selectedDices[i]) {
-                let randomNumber = Math.floor(Math.random() * 6 + 1);
-                board[i] = 'dice-' + randomNumber;
+        if (throwPossible) {
+            for (let i = 0; i < NBR_OF_DICES; i++) {
+                if (!selectedDices[i]) {
+                    let randomNumber = Math.floor(Math.random() * 6 + 1);
+                    board[i] = 'dice-' + randomNumber;
+                }
             }
-        }
-        setNbrOfThrowsLeft(nbrOfThrowsLeft - 1);
+            setNbrOfThrowsLeft(nbrOfThrowsLeft - 1);
+        } 
     }
 
 //--------------------- NUMBERS ---------------------
@@ -70,7 +66,7 @@ export default function Gameboard() {
     for (let i = 0; i < 6; i++) {
         nbrRow.push(
             <View style={styles.numbers}>
-                <Text style={styles.nbrSum}>0</Text>
+                <Text style={styles.nbrSum}>{nbrSum[i]}</Text>
                 <Pressable
                     key={"nbrRow" + i}
                 onPress={() => useNbr(i)}
@@ -82,33 +78,64 @@ export default function Gameboard() {
                     color={usedNbrs[i] ? "black" : "steelblue"}
                     />
                 </Pressable>
-
             </View>
         );
     }
 
+    //Use number
     function useNbr(i) {
         let nbrs = [...usedNbrs];
-        nbrs[i] = true;
-        setUsedNbrs(nbrs);
+        if (selectPossible && !nbrs[i]) {
+            nbrs[i] = true;
+            setUsedNbrs(nbrs);
+            console.log('Dice Index: ' + i);
+            var tempSum = 0;
+            for (let x = 0; x < diceRow.length; x++) {
+                //console.log('Dice Values: ' + board[x]);
+                //console.log(board[x].match(/(\d+)/)[0])
+                var diceVal = parseInt(board[x].match(/(\d+)/)[0]);
+                if (diceVal - 1 == i) {
+                    tempSum += diceVal;
+                }
+            }
+            //console.log('Summe: ' + sum);
+            nbrSum[i] = tempSum;
+            setSum(sum + parseInt(tempSum));
+            setSelectedDices(new Array(NBR_OF_DICES).fill(false));
+            setNbrOfThrowsLeft(3);
+        }
     }
 
     //Check for winner
     function checkWinner() {
-        setStatus('Not defined yet!')
+        if (nbrOfThrowsLeft === 0) {
+            setStatus('Select a number.');
+            throwPossible = false;
+            selectPossible = true;
+        } else if (nbrOfThrowsLeft < NBR_OF_THROWS) {
+            setStatus('Throw again or select a number');
+            throwPossible = true;
+            selectPossible = true;
+        } else if (nbrOfThrowsLeft === NBR_OF_THROWS && !usedNbrs.every(x => x === true)) {
+            setStatus('Throw the dices.')
+            throwPossible = true;
+            selectPossible = false;
+        } else if (nbrOfThrowsLeft === NBR_OF_THROWS && usedNbrs.every(x => x === true)) {
+            setStatus('Game over! All points selected.');
+            throwPossible = false;
+            selectPossible = false;
+        }
     }
 
     //Check after each dice throw
     useEffect(() => {
         checkWinner();
-        if (nbrOfThrowsLeft === NBR_OF_THROWS) {
-            setStatus('Game has not started');
-        }
+        /*
         if (nbrOfThrowsLeft < 0 ) {
             setNbrOfThrowsLeft(NBR_OF_THROWS-1);
         }
+        */
     }, [nbrOfThrowsLeft]);
-
 
     return(
         <View style={styles.gameboard}>
@@ -126,5 +153,4 @@ export default function Gameboard() {
             <View style={styles.flex}>{nbrRow}</View>
         </View>
     )
-
 };
