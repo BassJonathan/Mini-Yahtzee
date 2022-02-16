@@ -36,7 +36,7 @@ export default function Gameboard() {
                 <MaterialCommunityIcons
                     name={board[i]}
                     key={"row" + i}
-                    size={50}
+                    size={65}
                     color={selectedDices[i] ? "black" : "steelblue"}
                 />
             </Pressable>
@@ -56,7 +56,7 @@ export default function Gameboard() {
 
     //Throw dices
     function throwDices() {
-        if (throwPossible || !gameOver) {
+        if (throwPossible && !gameOver) {
             for (let i = 0; i < NBR_OF_DICES; i++) {
                 if (!selectedDices[i]) {
                     let randomNumber = Math.floor(Math.random() * 6 + 1);
@@ -64,7 +64,7 @@ export default function Gameboard() {
                 }
             }
             setNbrOfThrowsLeft(nbrOfThrowsLeft - 1);
-        } else {
+        } else if (gameOver) {
             newGame();
         }
     }
@@ -84,7 +84,7 @@ export default function Gameboard() {
                     <MaterialCommunityIcons
                         name={'numeric-' + (i + 1) + '-circle'}
                         key={"nbrRow" + i}
-                        size={35}
+                        size={40}
                     color={usedNbrs[i] ? "black" : "steelblue"}
                     />
                 </Pressable>
@@ -173,7 +173,7 @@ export default function Gameboard() {
                     {gameOver ? 'New Game' : 'Throw dices'}
                 </Text>
             </Pressable>
-            <Text style={styles.gameinfo}>Total: {getBonus ? (sum + BONUS) : sum }</Text>
+            <Text style={[styles.gameinfo, styles.gamevalue]}>Total: {getBonus ? (sum + BONUS) : sum }</Text>
             <Text style={styles.gameinfo}>{checkBonus()}</Text>
             <View style={styles.flex}>{nbrRow}</View>
         </View>
