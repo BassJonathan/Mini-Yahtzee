@@ -62,5 +62,12 @@ export default StyleSheet.create({
   buttonText: {
     color:"#2B2B52",
     fontSize: 20
+  },
+  numbers: {
+    flexDirection: 'column',
+  },
+  nbrSum: {
+    width: '100%',
+    textAlign: 'center',
   }
 });
