@@ -9,8 +9,8 @@
 <br />
 <p align="center">
 
-  <h2 align="center">Alcometer </h2>
-  <h3 align="center"> A (very) simple calculator for blood alcohol levels.</h3>
+  <h2 align="center">Mini-Yahtzee</h2>
+  <h3 align="center"> A simple dice game with the core functionality of Yahtzee</h3>
 
   <p align="center">
     Assignment for the course "Introduction to Mobile Services" @OAMK.
