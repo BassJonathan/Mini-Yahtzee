@@ -3,7 +3,7 @@ import { Text, View, Pressable } from 'react-native';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import styles from '../style/style';
 
-//Game Constants
+//Game Variables
 let board = [];
 let nbrSum = [0, 0, 0, 0, 0, 0];
 let nbrSelectPossible = false;
@@ -11,6 +11,8 @@ let diceSelectPossible = false;
 let throwPossible = true;
 let getBonus = false;
 let gameOver = false;
+
+//Game Constants
 const NBR_OF_DICES = 5;
 const NBR_OF_THROWS = 3;
 const SUM_FOR_BONUS = 63;
@@ -24,6 +26,11 @@ export default function Gameboard() {
     const [status, setStatus] = useState('');
     const [selectedDices, setSelectedDices] = useState(new Array(NBR_OF_DICES).fill(false));
     const [usedNbrs, setUsedNbrs] = useState(new Array(6).fill(false));
+
+
+//---------------------------------------------------
+//---------------------- DICES ----------------------
+//---------------------------------------------------
 
     //Initialize Dices
     const diceRow = [];
@@ -69,7 +76,10 @@ export default function Gameboard() {
         }
     }
 
+
+//---------------------------------------------------
 //--------------------- NUMBERS ---------------------
+//---------------------------------------------------
 
     //Initialize Numbers
     const nbrRow = [];
@@ -98,16 +108,16 @@ export default function Gameboard() {
         if (nbrSelectPossible && !nbrs[i]) {
             nbrs[i] = true;
             setUsedNbrs(nbrs);
-            console.log('Dice Index: ' + i);
             var tempSum = 0;
             for (let x = 0; x < diceRow.length; x++) {
-                var diceVal = parseInt(board[x].match(/(\d+)/)[0]);
+                var diceVal = parseInt(board[x].match(/(\d+)/)[0]); //Extract the dice value from the board array (Alternatively a second array could have been created.)
                 if (diceVal - 1 == i) {
                     tempSum += diceVal;
                 }
             }
             nbrSum[i] = tempSum;
             setSum(sum + parseInt(tempSum));
+            //Reset variables for next game moves
             setSelectedDices(new Array(NBR_OF_DICES).fill(false));
             setNbrOfThrowsLeft(3);
         } else if (nbrs[i]) {
@@ -115,7 +125,12 @@ export default function Gameboard() {
         }
     }
 
-    //Check after each dice throw
+
+//---------------------------------------------------
+//------------------- GAME LOGIC --------------------
+//---------------------------------------------------
+
+    //Check game status with dice throw
     useEffect(() => {
         if (nbrOfThrowsLeft === 0) {
             setStatus('Select a number.');
@@ -135,11 +150,13 @@ export default function Gameboard() {
         } else if (nbrOfThrowsLeft === NBR_OF_THROWS && usedNbrs.every(x => x === true)) {
             setStatus('Game over! All points selected.');
             throwPossible = false;
+            diceSelectPossible = false;
             nbrSelectPossible = false;
             gameOver = true;
         }
     }, [nbrOfThrowsLeft]);
 
+    //Check of bonus must be added and return appropriate text
     function checkBonus() {
         if (sum >= SUM_FOR_BONUS) {
             getBonus = true;
@@ -149,6 +166,7 @@ export default function Gameboard() {
         }
     }
 
+    //Reset variables for new game
     function newGame() {
         gameOver = false;
         setSum(0);

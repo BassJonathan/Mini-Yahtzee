@@ -51,10 +51,6 @@ export default StyleSheet.create({
     fontWeight: 'bold',
     paddingBottom: 10,
   },
-  item: {
-    margin: 15,
-    padding: 5
-  },
   flex: {
     flexDirection: "row",
     paddingVertical: 15,
