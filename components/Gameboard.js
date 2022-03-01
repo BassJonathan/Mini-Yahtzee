@@ -85,17 +85,17 @@ export default function Gameboard() {
     const nbrRow = [];
     for (let i = 0; i < 6; i++) {
         nbrRow.push(
-            <View style={styles.numbers}>
+            <View style={styles.numbers} key={"nbrRow" + i}>
                 <Text style={styles.nbrSum}>{nbrSum[i]}</Text>
                 <Pressable
                     key={"nbrRow" + i}
-                onPress={() => useNbr(i)}
+                    onPress={() => useNbr(i)}
                 >
                     <MaterialCommunityIcons
                         name={'numeric-' + (i + 1) + '-circle'}
                         key={"nbrRow" + i}
                         size={40}
-                    color={usedNbrs[i] ? "black" : "steelblue"}
+                        color={usedNbrs[i] ? "black" : "steelblue"}
                     />
                 </Pressable>
             </View>
