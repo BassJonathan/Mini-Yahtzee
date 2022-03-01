@@ -94,7 +94,7 @@ export default function Gameboard() {
                     <MaterialCommunityIcons
                         name={'numeric-' + (i + 1) + '-circle'}
                         key={"nbrRow" + i}
-                        size={40}
+                        size={50}
                         color={usedNbrs[i] ? "black" : "steelblue"}
                     />
                 </Pressable>
@@ -182,10 +182,10 @@ export default function Gameboard() {
 
     return(
         <View style={styles.gameboard}>
-            <View style={styles.flex}>{diceRow}</View>
+            <View style={[styles.flex, styles.dropShadow]}>{diceRow}</View>
             <Text style={styles.gameinfo}>Throws left: {nbrOfThrowsLeft}</Text>
             <Text style={styles.gameinfo}>{status}</Text>
-            <Pressable style={styles.button}
+            <Pressable style={[styles.button, styles.dropShadow]}
                 onPress={() => throwDices()}>
                 <Text style={styles.buttonText}>
                     {gameOver ? 'New Game' : 'Throw dices'}
@@ -193,7 +193,7 @@ export default function Gameboard() {
             </Pressable>
             <Text style={[styles.gameinfo, styles.gamevalue]}>Total: {getBonus ? (sum + BONUS) : sum }</Text>
             <Text style={styles.gameinfo}>{checkBonus()}</Text>
-            <View style={styles.flex}>{nbrRow}</View>
+            <View style={[styles.flex, styles.dropShadow]}>{nbrRow}</View>
         </View>
     )
 };

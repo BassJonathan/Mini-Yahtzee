@@ -4,7 +4,7 @@ import styles from '../style/style';
 
 export default function Footer() {
     return (
-        <View style={styles.footer}>
+        <View style={[styles.footer, styles.dropShadow]}>
             <Text style={styles.author}>
                 Author: Jonathan Bass
             </Text>

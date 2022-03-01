@@ -10,8 +10,8 @@ export default StyleSheet.create({
     height: "100%",
   },
   header: {
-    marginTop: 10,
     backgroundColor: 'skyblue',
+    marginTop: 10,
     flexDirection: 'row'
   },
   footer: {
@@ -23,7 +23,7 @@ export default StyleSheet.create({
     color: '#fff',
     fontWeight: 'bold',
     flex: 1,
-    fontSize: 23,
+    fontSize: 35,
     textAlign: 'center',
     margin: 10,
   },
@@ -59,14 +59,14 @@ export default StyleSheet.create({
     margin: 30,
     flexDirection: "row",
     padding: 10,
-    backgroundColor: "#73CED6",
+    backgroundColor: "skyblue",
     width: 150,
     borderRadius: 15,
     justifyContent: 'center',
     alignItems: 'center'
   },
   buttonText: {
-    color:"#2B2B52",
+    color:"#1A1A1A",
     fontSize: 20
   },
   numbers: {
@@ -75,5 +75,14 @@ export default StyleSheet.create({
   nbrSum: {
     width: '100%',
     textAlign: 'center',
+    fontSize: 18
+  },
+  dropShadow: {
+    marginVertical: 10,
+    paddingHorizontal: 18,
+    shadowColor: '#171717',
+    shadowOffset: {width: 2, height: 2},
+    shadowOpacity: 0.2,
+    shadowRadius: 2,
   }
 });

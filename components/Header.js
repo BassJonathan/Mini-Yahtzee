@@ -4,7 +4,7 @@ import styles from '../style/style';
 
 export default function Header() {
     return (
-        <View style={styles.header}>
+        <View style={[styles.header, styles.dropShadow]}>
             <Text style={styles.title}>
                 Mini-Yahtzee
             </Text>
